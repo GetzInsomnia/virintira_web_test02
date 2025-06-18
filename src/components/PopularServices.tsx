@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 
 const services = [
   {
@@ -41,7 +42,10 @@ export default function PopularServices() {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null)
 
   return (
-    <section className="relative min-h-[calc(100vh-var(--header-height))] snap-start px-4 pt-[80px] sm:pt-[80px] lg:pt-25 pb-10 flex items-center justify-center bg-[#FFFEFE]">
+    <section
+      className="relative min-h-[calc(100dvh-var(--header-height))] snap-start px-4 pt-[80px] sm:pt-[80px] lg:pt-25 pb-10 flex items-center justify-center bg-[#FFFEFE]"
+      style={{ minHeight: 'calc(100dvh - var(--header-height))' }}
+    >
       <div className="w-full max-w-7xl mx-auto">
         <h2 className="text-2xl lg:text-4xl font-bold text-center text-[#A70909] mb-10">บริการยอดนิยม</h2>
 
@@ -55,7 +59,7 @@ export default function PopularServices() {
                 <motion.div
                   onMouseEnter={() => setHoverIndex(index)}
                   onMouseLeave={() => setHoverIndex(null)}
-                  className={`relative rounded-xl overflow-hidden bg-white shadow-md group transition-all duration-300
+                  className={`relative rounded-xl overflow-hidden bg-white shadow-md group transition-none h-full
                     ${index === 0
                       ? 'sm:col-span-2 sm:row-span-1 lg:col-span-2 lg:row-span-2'
                       : 'sm:col-span-1 sm:row-span-1 lg:col-span-1 lg:row-span-1'}
@@ -66,10 +70,14 @@ export default function PopularServices() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.2 }}
                 >
-                  <div
-                    className="absolute inset-0 bg-cover bg-center opacity-80 group-hover:opacity-100 transition duration-300"
-                    style={{ backgroundImage: `url(${service.image})` }}
-                  ></div>
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    fill
+                    sizes={index === 0 ? '(min-width: 1024px) 50vw, (min-width: 640px) 50vw, 100vw' : '(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw'}
+                    priority={index < 2}
+                    className="absolute inset-0 object-cover object-center opacity-80 group-hover:opacity-100 no-image-fade"
+                  />
 
                   <div className="absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 px-4 py-3 z-10">
                     <h3 className="text-lg font-semibold text-[#A70909] mb-1 group-hover:translate-y-[-2px] transition duration-300">
