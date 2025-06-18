@@ -20,6 +20,16 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 Inter and Prompt fonts are bundled under `public/fonts` and loaded via `next/font/local`.
 
+## Internationalization
+
+Translations live in the `messages/` directory. Each locale has its own JSON file containing the translated strings. To add a new language:
+
+1. Copy `messages/en.json` to `messages/<locale>.json` and translate the values.
+2. Append the locale code to the `locales` list in `next.config.ts`.
+3. Restart the dev server.
+
+Pages will then be accessible under `/<locale>` in the URL.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
