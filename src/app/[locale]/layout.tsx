@@ -1,10 +1,12 @@
-import './globals.css'
+import '../globals.css'
 import { Prompt, Inter } from 'next/font/google'
 import Navbar from '@/components/navbar/Navbar'
 import StructuredData from '@/components/StructuredData'
 import type { Metadata } from 'next'
 import Footer from '@/components/Footer'
 import Script from 'next/script'
+import { NextIntlClientProvider } from 'next-intl'
+import { unstable_setRequestLocale } from 'next-intl/server'
 
 const fontTH = Prompt({
   subsets: ['thai'],
@@ -75,9 +77,17 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function LocaleLayout({
+  children,
+  params: { locale }
+}: {
+  children: React.ReactNode;
+  params: { locale: string };
+}) {
+  unstable_setRequestLocale(locale);
+  const messages = (await import(`../../../messages/${locale}.json`)).default;
   return (
-    <html lang="th">
+    <html lang={locale}>
       <head>
         <style>{`:root{--header-height:72px;}`}</style>
         <StructuredData />
@@ -96,18 +106,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </Script>
       </head>
       <body className={`${fontTH.variable} ${fontEN.variable} font-[var(--font-th)] overflow-x-hidden overflow-y-hidden`}>
-        <Navbar />
-        <main
-          id="main"
-          style={{
-            paddingTop: 'var(--header-height)',
-            height: 'calc(100dvh - var(--header-height))',
-          }}
-          className="pt-[var(--header-height)] h-[calc(100dvh-var(--header-height))] box-content overflow-y-auto overflow-x-hidden scroll-smooth scroll-pt-[var(--header-height)]"
-        >
-          {children}
-          <Footer />
-        </main>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <Navbar />
+          <main
+            id="main"
+            style={{
+              paddingTop: 'var(--header-height)',
+              height: 'calc(100dvh - var(--header-height))',
+            }}
+            className="pt-[var(--header-height)] h-[calc(100dvh-var(--header-height))] box-content overflow-y-auto overflow-x-hidden scroll-smooth scroll-pt-[var(--header-height)]"
+          >
+            {children}
+            <Footer />
+          </main>
+        </NextIntlClientProvider>
       </body>
     </html>
   )

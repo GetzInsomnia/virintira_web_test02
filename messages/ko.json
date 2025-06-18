@@ -1,0 +1,18 @@
+{
+  "navbar": {
+    "promotion": "Promotion",
+    "services": "Services",
+    "downloads": "Download forms",
+    "contact": "Contact us"
+  },
+  "underConstruction": {
+    "title": "Content in {section} / {item} is under development",
+    "description": "Please check back soon",
+    "back": "Back to home"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The link may be incorrect or the content was moved",
+    "back": "Back to home"
+  }
+}
