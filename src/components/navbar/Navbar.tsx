@@ -55,6 +55,7 @@ export default function Navbar() {
 
   const handleLogoClick = () => {
     if (pathname === '/') {
+      window.location.hash = 'herosection' // update hash for direct links
       const target = document.getElementById('herosection')
       if (target) {
         target.scrollIntoView({ behavior: 'smooth' })
@@ -62,7 +63,7 @@ export default function Navbar() {
         window.scrollTo({ top: 0, behavior: 'smooth' })
       }
     } else {
-      window.location.href = '/?scrollToHero=true'
+      window.location.href = '/#herosection'
     }
   }
 
